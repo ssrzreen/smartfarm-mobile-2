@@ -1,11 +1,13 @@
 import { View, Text } from 'react-native'
 import React from 'react'
+import Navigator from './src/routes/NavigatStack'
 
 const App = () => {
     return (
-        <View>
-            <Text>App</Text>
-        </View>
+       <Navigator />
+    // <View>
+    //     <Text>app</Text>
+    // </View>
     )
 }
 
