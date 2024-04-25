@@ -6,33 +6,38 @@ import CallusBtn from '../../component/Btn/CallusBtn'
 import MessageBtn from '../../component/Btn/MessageBtn'
 const Welcome = props => {
     return (
-        <Background>
-            <View style={{ marginHorizontal: 40, marginVertical: 500 }}>
-                <WelcomeBtn
-                    Press={() => {
-                        props.navigation.navigate('Login');
-                    }}
-                    bgColor={"white"}
-                    textColor={'black'}
-                    btnLabel="เข้าสู่ระบบ"
-                />
-                <View style={{
-                    flexDirection: 'row',
-                    justifyContent: 'center'
-                }}>
-                    <CallusBtn
+        // <SafeAreaView style={{ flex: 1}}>
+            <Background>
+                <View style={{flex: 1, marginHorizontal: 20, marginVertical: 500 }}>
+                    <WelcomeBtn
+                        Press={() => {
+                            props.navigation.navigate('Login');
+                        }}
                         bgColor={"white"}
                         textColor={'black'}
-                        btnLabel="ติดต่อเรา" />
-                    <MessageBtn
-                        bgColor={"white"}
-                        textColor={'black'}
-                        btnLabel="ข้อความ" />
-                        
-                </View>
+                        btnLabel="เข้าสู่ระบบ"
+                    />
+                    <View style={{
+                        flexDirection: 'row',
+                        // justifyContent: 'center'
+                        alignItems: 'center',
+                        width: '120%'
+                    }}>
+                        <CallusBtn
+                            bgColor={"white"}
+                            textColor={'black'}
+                            btnLabel="ติดต่อเรา" />
+                        <MessageBtn
+                            bgColor={"white"}
+                            textColor={'black'}
+                            btnLabel="ข้อความ" />
 
-            </View>
-        </Background>
+                    </View>
+
+                </View>
+            </Background>
+        // </SafeAreaView>
+
     )
 
 }

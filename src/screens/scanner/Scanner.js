@@ -47,17 +47,87 @@
 //     },
 // });
 
-import { View, Text, Alert } from 'react-native'
-import React from 'react'
+import { View, Text } from 'react-native'
 import QRCodeScanner from 'react-native-qrcode-scanner'
-import { RNCamera } from 'react-native-camera'
+import React, { useEffect, useState } from 'react'
 
-const Scanner = () => {
+const Scanner = ({ navigation }) => {
+    const [list, setList] = useState([])
+    const dataURL = "https://api.ckc.or.th/tracking/"
+
+    // const getListTracking = () => {
+    //     {
+    //         fetch("https://localhost/api/readdata.php")
+    //     }
+    // }
+    const [data, Setdata] = useState('scan something')
+
+    useEffect(() => {
+        getListTracking();
+    }, [])
+
+
+    const getListTracking = () => {
+        {
+            fetch("https://api.ckc.or.th/tracking/", {
+                method: 'GET'
+            }).then(res => {
+                return res.json()
+            }).then(res => {
+                if (res) {
+                    setList(res.data)
+                }
+            }).catch(err => {
+                console.log(err)
+            })
+        }
+    }
+
+    // const itemData = (item , index) => {
+    //     key = {index}
+    //     item
+    //     console.log(item.id)
+    // }
+
+    const onSuccess = (e) => {
+        const check = e.data
+        // itemData()
+        { data } Setdata(e.data)
+        if (check != null) {
+            console.log(check)
+            navigation.navigate('TestTables' , {
+                dataProps: check
+            })
+            // Linking.openURL(e.data).catch(err => console.error('An error occured', err));
+        } else {
+            // this.setState({
+            //     result: e,
+            //     scan: false,
+            //     ScanResult: true
+            // })
+        }
+    }
+
     return (
         <QRCodeScanner
-            onRead={({data}) => Alert(data)}
-            flashMode={RNCamera.Constants.FlashMode.torch}
-            
+            onRead={onSuccess}
+            reactivate={true}
+            reactivateTimeout={500}
+            showMarker={true}
+            topContent={
+                <View>
+                    <Text
+                        style={{
+                            color: 'black',
+                            padding: 20,
+                            fontSize: 20,
+                            backgroundColor: 'grey',
+                            margin: 10,
+                        }}>{data}
+                    </Text>
+                </View>
+            }
+        // flashMode={RNCamera.Constants.FlashMode.torch}
         />
     )
 }

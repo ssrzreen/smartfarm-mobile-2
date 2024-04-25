@@ -13,8 +13,10 @@ const CallusBtn = ({ bgColor, btnLabel, textColor }) => {
                 justifyContent: 'center',
                 flexDirection: 'row',
                 height: 50,
-                width: 150,
+                // width: 150,
+                // paddingHorizontal : 10,
                 marginRight: 10,
+                // padding: 10,
                 borderRadius: 100
             }}>
             <Image

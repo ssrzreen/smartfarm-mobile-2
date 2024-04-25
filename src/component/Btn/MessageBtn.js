@@ -13,8 +13,10 @@ const MessageBtn = ({ bgColor, btnLabel, textColor }) => {
                 justifyContent: 'center',
                 flexDirection: 'row',
                 height: 50,
-                width: 150,
-                marginRight: 10,
+                // width: 150,
+                // paddingHorizontal : 10,
+                marginLeft: 5,
+                // padding: 10,
                 borderRadius: 100
             }}>
             <Image

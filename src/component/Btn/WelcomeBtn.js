@@ -21,9 +21,9 @@ const WelcomeBtn = ( { Press , bgColor, btnLabel, textColor }) => {
             justifyContent: 'center',
             flexDirection: 'row',
             height: 50,
-            width: 300,
-            marginVertical: 10,
-            marginRight: 10,
+            width: '120%',
+            marginVertical: 15,
+            // marginRight: 30,
             borderRadius: 100
         }}>
             <Image
