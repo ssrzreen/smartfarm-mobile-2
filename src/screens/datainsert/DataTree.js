@@ -99,7 +99,7 @@ const DataTree = ({ navigation, route }) => {
                 setAvatar(base_url + response.image)
             } else {
                 setUpload(false)
-                Alert.alert('Error', response.message)
+                // Alert.alert('Error', response.message)
             }
         }).catch(() => {
             setUpload(false)
