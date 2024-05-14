@@ -1,6 +1,6 @@
 import { View, Text, ImageBackground } from 'react-native'
 import React from 'react'
-import BgScreen from '../../Image/BgScreen.png'
+import BgScreen from '../../Image/BgHome.png'
 
 const BackgroundHome = ({ children }) => {
     return (

@@ -2,10 +2,10 @@ import { View, Text, TouchableOpacity, Image } from 'react-native'
 import React from 'react'
 import Icon from '../../../../Image/History.png'
 
-const HistoryBtn = () => {
+const HistoryBtn = ({ Press }) => {
     return (
         <TouchableOpacity
-            onPress={() => console.log("this is scan")}
+            onPress={Press}
             style={{
                 flex: 1,
                 backgroundColor: "#008807",

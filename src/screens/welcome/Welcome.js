@@ -8,10 +8,10 @@ const Welcome = props => {
     return (
         // <SafeAreaView style={{ flex: 1}}>
             <Background>
-                <View style={{flex: 1, marginHorizontal: 20, marginVertical: 500 }}>
+                <View style={{flex: 1, marginHorizontal: 20, marginVertical: 450 }}>
                     <WelcomeBtn
                         Press={() => {
-                            props.navigation.navigate('Login');
+                            props.navigation.navigate('LoginPage');
                         }}
                         bgColor={"white"}
                         textColor={'black'}

@@ -1,10 +1,12 @@
-import { View, Text, Image, StyleSheet, TextInput, SafeAreaView, ImageBackground, TouchableOpacity, Alert, FlatList } from 'react-native'
+import { View, Text, Image, StyleSheet, TextInput, SafeAreaView, ImageBackground, TouchableOpacity, Alert, FlatList, Button } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import Background from '../../Image/backgroundlog.png'
 import ConfirmBtn from '../../component/Btn/ConfirmBtn'
 import CancelBtn from '../../component/Btn/CancelBtn'
+import { useNavigation } from '@react-navigation/native'
 
-const Login = props => {
+const Login = () => {
+  const navigation = useNavigation();
   const [password, setPassword] = useState('');
   const [filterData, setfilterData] = useState([]);
   const [masterData, setmasterData] = useState([]);
@@ -12,6 +14,9 @@ const Login = props => {
   const [list, setList] = useState([]);
   const [checkEmail, setCheckEmail] = useState('')
   const [check, setCheck] = useState('')
+
+  const [propsData, setPropsData] = useState('')
+  const [name, setName] = useState('')
 
   useEffect(() => {
     getDataMembers();
@@ -30,7 +35,7 @@ const Login = props => {
         setmasterData(res)
         if (res) {
           setList(res)
-          console.log(res)
+          // console.log(res)
         }
       }).catch(err => {
         console.log(err)
@@ -44,14 +49,15 @@ const Login = props => {
         setCheckEmail(item.email)
         const itemData = item.email ? item.email : " ";
         setCheck(checkEmail)
-        console.log('this is res : ' + item.email)
-        console.log('this is res password : ' + item.password_user)
+        // console.log('this is res : ' + item.email)
+        // console.log('this is res password : ' + item.password_user)
         const textData = text
         return itemData.indexOf(textData) > -1
       })
       setfilterData(newData)
       setSearch(text)
-      console.log("this is filter " + text)
+      // setPropsData(text)
+      // console.log("this is filter " + text)
     } else {
       setfilterData(masterData)
       setSearch(text)
@@ -65,44 +71,51 @@ const Login = props => {
         const itemData = item.password_user ? item.password_user : " ";
         // setCheck(checkEmail)
         // console.log('this is res : ' + item.password_user)
-        console.log('this is res password : ' + item.password_user)
+        // console.log('this is res password : ' + item.password_user)
         const textData = text
         return itemData.indexOf(textData) > -1
       })
       setfilterData(newData)
       setPassword(text)
-      console.log("this is filter password " + text)
+      // console.log("this is filter password " + text)
     } else {
       setfilterData(masterData)
       setPassword(text)
     }
   }
 
+  const sub = () => {
+    navigation.navigate('Home', {
+      name:name,
+    });
+  }
+
   const OnSuccess = () => {
     masterData.filter((item) => {
+      const send = search
+      // const check = e.data
       const res = item.email
+      console.log(search)
       const checkSearch = search
 
       const resPass = item.password_user
       const checkPassword = password
 
-      console.log('this is email form res :' + item.email)
-      console.log('this is email form seach :' + search)
+      // console.log('this is email form res :' + item.email)
+      // console.log('this is email form seach :' + search)
 
-      console.log('this is password form res :' + item.password_user)
-      console.log('this is password form seach :' + password)
+      // console.log('this is password form res :' + item.password_user)
+      // console.log('this is password form seach :' + password)
 
       if (res == checkSearch && resPass == checkPassword) {
-        console.log('work')
+        // console.log('work')
         // console.log('this is members :' + item.member_type)
-        const dataProps = [
-          { name: item.name },
-          { membertype: item.member_type }
-        ]
-        props.navigation.navigate('Home')
+        navigation.navigate('Home', {
+          name: 'test'
+        })
         // console.log(item.email)
       } else {
-        console.log('this logic not work')
+        // console.log('this logic not work')
 
       }
     })
@@ -122,11 +135,17 @@ const Login = props => {
           <Text style={{ fontSize: 32, color: 'black', fontWeight: 'bold', paddingVertical: 20 }}>
             เข้าสู่ระบบ
           </Text>
+          <TextInput
+            placeholder='Name'
+            value={name}
+            onChangeText={(text) => setName(text)}
+          />
 
           <TextInput
             placeholder='ผู้ใช้'
             style={styles.textInputStyle}
             underlineColorAndroid='transparent'
+            // value={name}
             onChangeText={(text) => searchFilter(text, setSearch(text))}
           />
 
@@ -162,6 +181,26 @@ const Login = props => {
               bgColor={"#05770B"}
               textColor={'#FFFFFF'}
               btnLabel="ยืนยัน" />
+
+            {/* <TouchableOpacity 
+            onPress={() => {
+              navigation.navigate('Home' ,{
+                dataprops : 'test test'
+              })
+            }}>
+              <Text>Test Props</Text>
+            </TouchableOpacity> */}
+
+            <Button
+              title="Done"
+              onPress={() => {
+                navigation.navigate({
+                  name: 'Test1',
+                  // search: 'name' ,
+                });
+              }}
+              // onPress={sub}
+            />
 
             <CancelBtn
               bgColor={"#D9D9D9"}

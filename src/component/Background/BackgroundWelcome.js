@@ -1,6 +1,6 @@
 import { View, Text, ImageBackground } from 'react-native'
 import React from 'react'
-import background from '../../Image/backgrounwelcome.png'
+import background from '../../Image/BGwelcome.png'
 
 const Background = ({ children }) => {
     return (

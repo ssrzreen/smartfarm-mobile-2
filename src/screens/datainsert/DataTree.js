@@ -1,9 +1,13 @@
-import { View, Text, Alert, TextInput, StyleSheet, Button, SafeAreaView, ImageBackground } from 'react-native'
+import { View, Text, Alert, TextInput, StyleSheet, Button, SafeAreaView, ImageBackground, Image, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import Background from '../../Image/background.png';
 import RegisInput from '../../component/RegisterInput/RegisInput';
 import CancelBtn from '../../component/Btn/CancelBtn';
 import ConfirmBtn from '../../component/Btn/ConfirmBtn';
+import { launchImageLibrary as _launchImageLibrary, launchCamera as _launchCamera } from 'react-native-image-picker';
+import { SelectList } from 'react-native-dropdown-select-list';
+let launchImageLibrary = _launchImageLibrary;
+let launchCamera = _launchCamera;
 
 const DataTree = ({ navigation, route }) => {
     console.log("this is props form testTables :" + route.params.dataProps)
@@ -14,6 +18,24 @@ const DataTree = ({ navigation, route }) => {
     const [plant_status, setPlant_status] = useState('');
     const [grower_id, setGrower_id] = useState('')
 
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [data, setData] = useState('')
+
+    const [upload, setUpload] = useState(false);
+    const [avatar, setAvatar] = useState('');
+
+    const seeds = [
+        { value: 'ต้นกล้า' },
+        { value: 'ต้นอ่อน' },
+        { value: 'ต้นเต็มวัย' }
+    ]
+
+    const plant = [
+        { value: 'ปกติ' },
+        { value: 'พบปัญหา' },
+        { value: 'ตาย' }
+    ]
+
     const noHandler = () => {
         setSeedling_status('')
         setDetails('')
@@ -23,12 +45,74 @@ const DataTree = ({ navigation, route }) => {
     }
 
 
+    const openImagePicker = () => {
+        const options = {
+            mediaType: 'photo',
+            includeBase64: false,
+            maxHeight: 2000,
+            maxWidth: 2000,
+        };
+
+        launchImageLibrary(options, handleResponse);
+    };
+
+    const handleCameraLaunch = () => {
+        const options = {
+            mediaType: 'photo',
+            includeBase64: false,
+            maxHeight: 2000,
+            maxWidth: 2000,
+        };
+
+        launchCamera(options, handleResponse);
+    };
+
+    const handleResponse = (response) => {
+        if (response.didCancel) {
+            console.log('User cancelled image picker');
+        } else if (response.error) {
+            console.log('Image picker error: ', response.error);
+        } else {
+            let imageUri = response.uri || response.assets?.[0]?.uri;
+            setSelectedImage(imageUri);
+            setData(imageUri)
+            setUpload(imageUri)
+
+        }
+    };
+
+    const uploadImage = (image_uri) => {
+        setUpload(true)
+        let base_url = "https://api.ckc.or.th/tree/"
+        let uploadData = new FormData();
+        uploadData.append('Submit', 'ok');
+        uploadData.append('file', {
+            type: 'image/jpg', uri: image_uri
+            , name: 'uploadimagetmp.jpg'
+        })
+        fetch(base_url, {
+            method: 'post',
+            body: uploadData
+        }).then(response => response.json()).then(response => {
+            if (response.status) {
+                setUpload(false)
+                setAvatar(base_url + response.image)
+            } else {
+                setUpload(false)
+                Alert.alert('Error', response.message)
+            }
+        }).catch(() => {
+            setUpload(false)
+            Alert.alert('Error', 'Error on network.')
+        })
+    }
+
+
     const InsertRecord = () => {
         if (seedling_status.length == 0) {
             Alert.alert("Required field is Missing")
         } else {
-            InsertAPIURL = "http://10.0.2.2:80/api/insertdatatree.php";
-
+            InsertAPIURL = "https://api.ckc.or.th/tree/";
             headers = {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -40,7 +124,8 @@ const DataTree = ({ navigation, route }) => {
                 details: details,
                 note: note,
                 plant_status: plant_status,
-                grower_id: grower_id
+                grower_id: grower_id,
+                path_img: upload
             };
 
             fetch(InsertAPIURL,
@@ -52,6 +137,7 @@ const DataTree = ({ navigation, route }) => {
             )
                 .then((response) => response.json())
                 .then((response) => {
+                    uploadImage(upload)
                     Alert.alert(
                         'ยืนยันบันทึกข้อมูลต้นกล้า',
                         licence_id,
@@ -69,7 +155,14 @@ const DataTree = ({ navigation, route }) => {
         }
     }
 
-
+    const cancel = () => {
+        setSeedling_status('')
+        setDetails('')
+        setNote('')
+        setPlant_status('')
+        setGrower_id('')
+        setUpload(null)
+    }
     return (
         <SafeAreaView style={{ flex: 1, justifyContent: 'center' }}>
             <ImageBackground source={Background} resizeMode='cover' style={styles.image}>
@@ -80,33 +173,83 @@ const DataTree = ({ navigation, route }) => {
                     setValue={setLicence_id}
                 />
 
-                <RegisInput
+                {/* <RegisInput
                     placeholder={'Seed'}
-                    value={seedling_status}
+                    value={category}
                     setValue={setSeedling_status}
+                /> */}
+                <SelectList
+                    value={seedling_status}
+                    setSelected={setSeedling_status}
+                    data={seeds}
+                    placeholder='สถานะต้นกล้า'
+                    defaultOption={{ value: 'ต้นกล้า' }}
+                    search={false}
+                    boxStyles={{ backgroundColor: "#FFFFFF", borderRadius: 5, width: "100%" }}
+                    dropdownStyles={{ backgroundColor: "#FFFFFF" }}
                 />
 
                 <RegisInput
-                    placeholder={'Details'}
+                    placeholder={'รายละเอียด'}
                     value={details}
                     setValue={setDetails} />
 
                 <RegisInput
-                    placeholder={'Note'}
+                    placeholder={'บันทึกเพิ่มเติม'}
                     value={note}
                     setValue={setNote}
                 />
 
-                <RegisInput
+                {/* <RegisInput
                     placeholder={'Plant'}
                     value={plant_status}
                     setValue={setPlant_status}
+                /> */}
+                <SelectList
+                    value={plant_status}
+                    setSelected={setPlant_status}
+                    data={plant}
+                    placeholder='สถานะของพืช'
+                    defaultOption={{ value: 'ต้นกล้า' }}
+                    search={false}
+                    boxStyles={{ backgroundColor: "#FFFFFF", borderRadius: 5, width: "100%" }}
+                    dropdownStyles={{ backgroundColor: "#FFFFFF" }}
                 />
                 <RegisInput
                     placeholder={'Grower'}
                     value={grower_id}
                     setValue={setGrower_id}
                 />
+
+
+                <View style={styles.container}>
+                    {selectedImage && (
+                        <Image
+                            source={{ uri: selectedImage }}
+                            style={{ width: "50%", height: "60%", top: 20 }}
+                        // resizeMode="contain"
+                        />
+                    )}
+                    <View style={{
+                        marginTop: 40,
+                        flexDirection: 'row',
+                    }}>
+                        <TouchableOpacity
+                            onPress={openImagePicker}
+                            style={styles.bottonImage}>
+                            <Text style={styles.textImage}>เลือกภาพ</Text>
+                        </TouchableOpacity>
+                        <View style={{ marginHorizontal: 10 }}>
+                            <TouchableOpacity style={styles.bottonImage}
+                                onPress={handleCameraLaunch}>
+                                <Text style={styles.textImage}>ถ่ายภาพ</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+
+                    <View style={{ marginTop: 20, marginBottom: 50 }}>
+                    </View>
+                </View>
                 <View style={{
                     flexDirection: 'row',
                     justifyContent: 'center',
@@ -120,7 +263,7 @@ const DataTree = ({ navigation, route }) => {
                         btnLabel="ยืนยัน" />
 
                     <CancelBtn
-                        // Press={route.navigate('TestTables')}
+                        Press={cancel}
                         bgColor={"#D9D9D9"}
                         textColor={'black'}
                         btnLabel="ยกเลิก" />
@@ -157,6 +300,36 @@ const styles = StyleSheet.create({
     image: {
         flex: 1,
         justifyContent: 'center',
+    },
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        backgroundColor: '#FFFFFF',
+        borderRadius: 20,
+        top: 5
+    },
+    button: {
+        width: 150,
+        height: 50,
+        backgroundColor: 'green',
+        marginTop: 20,
+        borderRadius: 25,
+        padding: 15,
+        color: '#F9F9CF9'
+    },
+    bottonImage: {
+        backgroundColor: "#D9D9D9",
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'row',
+        height: 50,
+        width: 150,
+        borderRadius: 100
+    },
+    textImage: {
+        color: 'black',
+        fontSize: 15,
+        fontWeight: 'bold'
     }
 });
 export default DataTree

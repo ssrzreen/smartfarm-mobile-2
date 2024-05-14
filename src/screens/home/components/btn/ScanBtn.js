@@ -11,14 +11,15 @@ const ScanBtn = ({ Press }) => {
                 backgroundColor: "#008807",
                 alignItems: 'center',
                 justifyContent: 'center',
-                flexDirection: 'row',
-                height: 100,
-                width: 150,
-                marginLeft: 40,
-                marginHorizontal: 10,
-                borderRadius: 30
+                opacity: 0,
+                // flexDirection: 'row',
+                height: 150,
+                width: 135,
+                marginLeft: -150,
+                // marginHorizontal: 10,
+                borderRadius: 20
             }}>
-            <View style={{ alignItems: 'center' }}>
+            {/* <View style={{ alignItems: 'center' }}>
                 <Image
                     source={Icon}
                     style={{
@@ -32,7 +33,7 @@ const ScanBtn = ({ Press }) => {
                     fontSize: 20,
                     fontWeight: 'bold',
                 }}>สแกน</Text>
-            </View>
+            </View> */}
         </TouchableOpacity>
     )
 }

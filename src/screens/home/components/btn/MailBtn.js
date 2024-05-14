@@ -9,16 +9,17 @@ const MailBtn = () => {
             style={{
                 flex: 1,
                 backgroundColor: "#008807",
-                alignItems: 'center',
+                // alignItems: 'center',
                 justifyContent: 'center',
-                flexDirection: 'row',
-                height: 100,
-                width: 150,
-                marginLeft : 40,
-                marginHorizontal: 10,
+                opacity: 0,
+                // flexDirection: 'row',
+                height: 80,
+                width: 210,
+                marginLeft : -25,
+                // marginHorizontal: 10,
                 borderRadius: 30
             }}>
-            <View style={{ alignItems: 'center' }}>
+            {/* <View style={{ alignItems: 'center' }}>
                 <Image
                     source={Icon}
                     style={{
@@ -32,7 +33,7 @@ const MailBtn = () => {
                     fontSize: 20,
                     fontWeight: 'bold',
                 }}>ข้อความ</Text>
-            </View>
+            </View> */}
         </TouchableOpacity>
   )
 }

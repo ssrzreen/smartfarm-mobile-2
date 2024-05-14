@@ -3,22 +3,23 @@ import React from 'react'
 import Icon from '../../../../Image/call.png'
 
 const CallUsBtn = () => {
-  return (
-    <TouchableOpacity
+    return (
+        <TouchableOpacity
             onPress={() => console.log("this is call")}
             style={{
                 flex: 1,
                 backgroundColor: "#008807",
-                alignItems: 'center',
+                // alignItems: 'center',
                 justifyContent: 'center',
-                flexDirection: 'row',
-                height: 100,
-                width: 150,
-                marginLeft : 40,
-                marginHorizontal: 10,
-                borderRadius: 30
+                opacity: 0,
+                // flexDirection: 'row',
+                height: 50,
+                width: 210,
+                marginLeft : -25,
+                // marginHorizontal: 10,
+                borderRadius: 20
             }}>
-            <View style={{ alignItems: 'center' }}>
+            {/* <View style={{ alignItems: 'center' }}>
                 <Image
                     source={Icon}
                     style={{
@@ -32,9 +33,9 @@ const CallUsBtn = () => {
                     fontSize: 20,
                     fontWeight: 'bold',
                 }}>ติดต่อเรา</Text>
-            </View>
+            </View> */}
         </TouchableOpacity>
-  )
+    )
 }
 
 export default CallUsBtn

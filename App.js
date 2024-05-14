@@ -10,23 +10,25 @@ import TestTables from './src/screens/tables/TestTables'
 import Scanner from './src/screens/scanner/Scanner'
 import DataTree from './src/screens/datainsert/DataTree'
 import Tabs from './src/routes/Tabs'
+import MainNav from './src/routes/MainNav';
 
 const App = () => {
     return (
         // <TestTables />
         // <Scanner />
         // <DataTree />
-        <NavigationContainer>
-            <Navigator >
-                {/* <Tabs /> */}
-            </Navigator>
-        </NavigationContainer>
+        // <NavigationContainer>
+        //     <Navigator >
+        //         {/* <Tabs /> */}
+        //     </Navigator>
+        // </NavigationContainer>
 
         // <DataTables />
         // <TablesTracking />
         // <View>
         //     <Text>app</Text>
         // </View>
+        <MainNav></MainNav>
     )
 }
 
